@@ -4,3 +4,6 @@
 ### Our team 
 * Garrett Nelson: team leader, Art/Level designer, coder
 * Aidan Stephen: Sound mixer, Music designer, coder
+
+### License:
+### How to start up and play
