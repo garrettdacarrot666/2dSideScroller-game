@@ -8,4 +8,4 @@
 
 ### License:
 ### How to start up and play
-[MAC Download]([https://www.google.com](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/src/EchoesoftheFour/macos-x86_64.zip) "MAC Zip")
+![MAC Download]([https://www.google.com](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/src/EchoesoftheFour/macos-x86_64.zip) "MAC Zip")
