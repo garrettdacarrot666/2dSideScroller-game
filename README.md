@@ -1,6 +1,6 @@
 # Echoes of the 4 a 2d SideScroller fantasy platformer
 
-![StartScreen](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/echoesstart.png)
+![StartScreen](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/Startscreen.png)
 ![Wizard](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/baseWizard.png)
 ![WizardRight](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardRight.gif)
 ![WizardWalking](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardLeft.gif)
