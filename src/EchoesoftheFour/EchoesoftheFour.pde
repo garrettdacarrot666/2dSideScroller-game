@@ -55,14 +55,14 @@ void draw() {
     break;
   }
 }
-
+//Garrett Nelson
 void drawStart() {
   background(0);
   image(background, 0, 0);
   btnPlay.clicked();
 }
 
-
+//Aidan Stephen
 void drawPlay() {
   background(130);
   //fill(0);
@@ -123,7 +123,7 @@ void mousePressed() {
     }
   }
 }
-
+//Aidan Stephen
 void drawGiveUp() {
   background(0);
   textAlign(CENTER);
