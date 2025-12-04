@@ -1,24 +1,24 @@
 // Aidan Stephen | 28 Oct 2025 | Object Tester
 Player gerald;
 ArrayList<Platform> platforms;
-BackGround b1;
+ArrayList<Slope> slopes;
 Button btnPlay, btnMenu, btnGiveUp;
 Boss fascist;
 Element e1;
 Slope s1;
+float x = 0;
 boolean rightPress, leftPress, upPress, doubleJump, canJump, idleImageRight, idleImageLeft;
 import gifAnimation.*;
 Gif walkRight, walkLeft;
-PImage baseWizardRight, baseWizardLeft, background;
+PImage baseWizardRight, baseWizardLeft, background, startscreen, grassBlock;
+PFont font;
 char screen = 's';
 
 void setup() {
-  size(750, 500);
+  size(1000, 750);
   gerald = new Player(width/2, height-25, color(0, 0, 255, 0));
   fascist = new Boss(width/2, height/2, color(255, 0, 0));
-  b1 = new BackGround(width/2, height/2, color(0, 0, 0, 125));
   e1 = new Element(75, height - 75, color(223, 115, 255));
-  s1 = new Slope(200, 700, color(0));
   btnPlay = new Button("Start Game", width/2, height/2, 100, 50);
   btnMenu = new Button("Menu", 100, 50, 100, 50);
   btnGiveUp = new Button("Give Up", 100, 50, 100, 50);
@@ -29,18 +29,26 @@ void setup() {
   canJump = false;
   idleImageRight = true;
   idleImageLeft = false;
+  slopes = new ArrayList<Slope>();
+  slopes.add(new Slope(1000, height - 300, 1250, 250));
   platforms = new ArrayList<Platform>();
   platforms.add(new Platform(100, height-150, 100, 50, color(0)));
   platforms.add(new Platform(450, height-400, 100, 50, color(0)));
+  platforms.add(new Platform(800, height-200, 100, 50, color(0)));
   walkRight = new Gif(this, "walkingWizardRight.gif");
   walkLeft = new Gif(this, "walkingWizardLeft.gif");
   baseWizardRight = loadImage("baseWizard.png");
   baseWizardLeft = loadImage("baseWizardleft.png");
-  background = loadImage("backGround.png");
+  startscreen = loadImage("Startscreen.png");
+  background = loadImage("forest.png");
+  grassBlock = loadImage("grassBlock.png");
+  font = createFont("Herculanum-48.vlw", 64);
 }
 
 void draw() {
+  textFont(font);
   background(0);
+  //Screen Management
   switch(screen) {
   case 's':
     background(0);
@@ -51,39 +59,69 @@ void draw() {
     drawPlay();
     break;
   case 'g':
+    background(130);
     drawGiveUp();
     break;
   }
 }
-//Garrett Nelson
+
 void drawStart() {
+  //Start Screen
   background(0);
-  image(background, 0, 0);
+  image(startscreen, 0, 0);
+  startscreen.resize(1000, 750);
   btnPlay.clicked();
 }
 
-//Aidan Stephen
+
 void drawPlay() {
-  background(130);
-  //fill(0);
-  //rect(250, height, width, 50);
+  //What you see when you play
+  imageMode(CORNER);
+  background.resize(1000, 750);
+  //Makes background image loop
+  image(background, x, 0);
+  image(background, x + background.width, 0);
+  image(background, x - background.width, 0);
+  if (x <= -background.width || x >= background.width) x = 0;
   //e1.display();
-  //s1.display();
   //fascist.display();
   gerald.update();
   //gerald.display();
-  b1.display();
 
-
+//Makes platform have graphic 
   for (Platform p : platforms) {
-    p.display();
+    imageMode(CENTER);
+    image(grassBlock, p.x, p.y);
+    grassBlock.resize(100, 50);
+    //p.display();
+    //if (p.offScreen()) {
+    //  platforms.remove(p);
+    //}
   }
 
+  for (Slope s : slopes) {
+    //rotate(HALF_PI);
+    s.display();
+    //rotate(HALF_PI);
+  }
+
+//Walking animations, background moving with player, terrain moving with player
   if (leftPress == true) {
     gerald.moveLeft();
     imageMode(CENTER);
     image(walkLeft, gerald.location.x, gerald.location.y);
     walkLeft.play();
+    if (gerald.location.x <= 250) {
+      gerald.location.x = 250;
+      x += 0.5;
+      for (Platform p : platforms) {
+        p.x -= gerald.velocity.x;
+      }
+      for (Slope s : slopes) {
+        s.x1 -= gerald.velocity.x;
+        s.x2 -= gerald.velocity.x;
+      }
+    }
   }
   if (rightPress == true) {
     gerald.moveRight();
@@ -91,7 +129,20 @@ void drawPlay() {
     imageMode(CENTER);
     image(walkRight, gerald.location.x, gerald.location.y);
     walkRight.play();
+    if (gerald.location.x >= 750) {
+      gerald.location.x = 750;
+      x -= 0.5;
+      for (Platform p : platforms) {
+        p.x -= gerald.velocity.x;
+      }
+      for (Slope s : slopes) {
+        s.x1 -= gerald.velocity.x;
+        s.x2 -= gerald.velocity.x;
+      }
+    }
   }
+
+  //This is the check for how player moves, if can jump and double jump
   if (upPress == true) {
     gerald.jump();
     upPress = false;
@@ -112,9 +163,11 @@ void drawPlay() {
     image(baseWizardLeft, gerald.location.x, gerald.location.y);
   }
   btnGiveUp.display();
-  btnGiveUp.clicked();
+  btnGiveUp.buttonHover();
 }
 
+
+//Give up Button
 void mousePressed() {
   switch(screen) {
   case 'p':
@@ -123,14 +176,17 @@ void mousePressed() {
     }
   }
 }
-//Aidan Stephen
+
+//Give up screen
 void drawGiveUp() {
   background(0);
   textAlign(CENTER);
   textSize(32);
   text("You Coward", width/2, height/2);
+  fill(255);
 }
 
+//Start to play
 void keyPressed() {
   switch(screen) {
   case 's':
@@ -139,6 +195,7 @@ void keyPressed() {
     }
   }
 
+//More checks for movement
   if (keyCode == UP) {
     upPress = true;
   }
@@ -159,6 +216,8 @@ void keyPressed() {
     canJump = false;
   }
 }
+
+//Even more movement checks
 void keyReleased() {
   if (keyCode == LEFT) {
     leftPress = false;
