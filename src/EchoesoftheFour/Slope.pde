@@ -1,24 +1,22 @@
 class Slope {
   //Member Variables
-  int x, y, z, w, h, d;
+  int x1, y1, x2, y2;
   color c1;
-  //PImage slope;
+  //PImage platform, ground;
 
   //Constructor
-  Slope (int x, int y, color c1) {
-    this.x = x;
-    this.y = y;
-    z = 700;
-    d = 200;
-    w = 700;
-    h = 700;
-    this.c1 = c1;
+  Slope (int x1, int y1, int x2, int y2) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
   }
 
 
   //Member Methods
   void display () {
-    fill(c1);
-    triangle(x, y, z, d, w, h);
+    stroke(255);
+    strokeWeight(3);
+    line(x1, y1, x2, y2);
   }
 }
