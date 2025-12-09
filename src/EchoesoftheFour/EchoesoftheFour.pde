@@ -2,15 +2,16 @@
 Player gerald;
 ArrayList<Platform> platforms;
 ArrayList<Slope> slopes;
+ArrayList<Water> water;
 Button btnPlay, btnMenu, btnGiveUp;
 Boss fascist;
 Element e1;
 Slope s1;
 float x = 0;
-boolean rightPress, leftPress, upPress, doubleJump, canJump, idleImageRight, idleImageLeft;
+boolean rightPress, leftPress, upPress, doubleJump, canJump, idleImageRight, idleImageLeft, canSwim;
 import gifAnimation.*;
-Gif walkRight, walkLeft;
-PImage baseWizardRight, baseWizardLeft, background, startscreen, grassBlock;
+Gif walkRight, walkLeft, swimRight, swimLeft;
+PImage baseWizardRight, baseWizardLeft, background, startscreen, grassBlock, grassSlope;
 PFont font;
 char screen = 's';
 
@@ -27,10 +28,13 @@ void setup() {
   upPress = false;
   doubleJump = false;
   canJump = false;
+  canSwim = false;
   idleImageRight = true;
   idleImageLeft = false;
+  water = new ArrayList<Water>();
+  water.add(new Water(1610, 500, 1000, 500, color(17, 215, 255)));
   slopes = new ArrayList<Slope>();
-  slopes.add(new Slope(1000, height - 300, 1250, 250));
+  slopes.add(new Slope(920, height, 1115, 185));
   platforms = new ArrayList<Platform>();
   platforms.add(new Platform(100, height-150, 100, 50, color(0)));
   platforms.add(new Platform(450, height-400, 100, 50, color(0)));
@@ -42,6 +46,7 @@ void setup() {
   startscreen = loadImage("Startscreen.png");
   background = loadImage("forest.png");
   grassBlock = loadImage("grassBlock.png");
+  grassSlope = loadImage("grassSlope.png");
   font = createFont("Herculanum-48.vlw", 64);
 }
 
@@ -88,7 +93,7 @@ void drawPlay() {
   gerald.update();
   //gerald.display();
 
-//Makes platform have graphic 
+  //Makes platform have graphic
   for (Platform p : platforms) {
     imageMode(CENTER);
     image(grassBlock, p.x, p.y);
@@ -100,12 +105,17 @@ void drawPlay() {
   }
 
   for (Slope s : slopes) {
-    //rotate(HALF_PI);
-    s.display();
-    //rotate(HALF_PI);
+    imageMode(CENTER);
+    image(grassSlope, (s.x1 + s.x2) / 2, (s.y1 + s.y2) / 2);
+    grassSlope.resize(s.x2 - s.x1, s.y2 + s.y1);
+    //s.display();
   }
 
-//Walking animations, background moving with player, terrain moving with player
+  for (Water m : water) {
+    m.display();
+  }
+
+  //Walking animations, background moving with player, terrain moving with player
   if (leftPress == true) {
     gerald.moveLeft();
     imageMode(CENTER);
@@ -121,11 +131,13 @@ void drawPlay() {
         s.x1 -= gerald.velocity.x;
         s.x2 -= gerald.velocity.x;
       }
+      for (Water m : water) {
+        m.x -= gerald.velocity.x;
+      }
     }
   }
   if (rightPress == true) {
     gerald.moveRight();
-    //myAnimation.resize(50, 50);
     imageMode(CENTER);
     image(walkRight, gerald.location.x, gerald.location.y);
     walkRight.play();
@@ -138,6 +150,49 @@ void drawPlay() {
       for (Slope s : slopes) {
         s.x1 -= gerald.velocity.x;
         s.x2 -= gerald.velocity.x;
+      }
+      for (Water m : water) {
+        m.x -= gerald.velocity.x;
+      }
+    }
+  }
+  if (rightPress == true && gerald.isInWater == true) {
+    gerald.moveRight();
+    imageMode(CENTER);
+    image(swimRight, gerald.location.x, gerald.location.y);
+    swimRight.play();
+    if (gerald.location.x >= 750) {
+      gerald.location.x = 750;
+      x -= 0.5;
+      for (Platform p : platforms) {
+        p.x -= gerald.velocity.x;
+      }
+      for (Slope s : slopes) {
+        s.x1 -= gerald.velocity.x;
+        s.x2 -= gerald.velocity.x;
+      }
+      for (Water m : water) {
+        m.x -= gerald.velocity.x;
+      }
+    }
+  }
+  if (leftPress == true && gerald.isInWater == true) {
+    gerald.moveLeft();
+    imageMode(CENTER);
+    image(swimLeft, gerald.location.x, gerald.location.y);
+    swimLeft.play();
+    if (gerald.location.x >= 750) {
+      gerald.location.x = 750;
+      x -= 0.5;
+      for (Platform p : platforms) {
+        p.x -= gerald.velocity.x;
+      }
+      for (Slope s : slopes) {
+        s.x1 -= gerald.velocity.x;
+        s.x2 -= gerald.velocity.x;
+      }
+      for (Water m : water) {
+        m.x -= gerald.velocity.x;
       }
     }
   }
@@ -195,7 +250,7 @@ void keyPressed() {
     }
   }
 
-//More checks for movement
+  //More checks for movement
   if (keyCode == UP) {
     upPress = true;
   }
@@ -204,12 +259,14 @@ void keyPressed() {
     idleImageRight = false;
     idleImageLeft = false;
     walkRight.pause();
+    swimRight.pause();
   }
   if (keyCode == RIGHT) {
     rightPress = true;
     idleImageRight = false;
     idleImageLeft = false;
     walkLeft.pause();
+    swimLeft.pause();
   }
   if (keyCode == UP && gerald.isOnGround == false && canJump == true) {
     doubleJump = true;
@@ -224,12 +281,14 @@ void keyReleased() {
     idleImageLeft = true;
     idleImageRight = false;
     walkLeft.pause();
+    swimLeft.pause();
   }
   if (keyCode == RIGHT) {
     rightPress = false;
     idleImageRight = true;
     idleImageLeft = false;
     walkRight.pause();
+    swimRight.pause();
   }
   if (keyCode == UP) {
     upPress = false;
