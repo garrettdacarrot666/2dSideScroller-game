@@ -1,20 +1,20 @@
 # Echoes of the 4 a 2d SideScroller fantasy platformer
 
-##Our screen graphics
+## Our screen graphics
 ![StartScreen](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/Startscreen.png)
 ![Forest](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/forrest.png)
 ![grassSlope](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/grassSlope.png)
 ![grassBlock](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/grassBlock.png)
-##Our character graphics
+## Our character graphics
 ![Wizard](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/baseWizard.png)
 ![WizardRight](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardRight.gif)
 ![WizardWalking](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardLeft.gif)
 ![WizardSwim](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/swim.gif)
 ![WizardSwimLeft](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/swimLeft.gif)
 ![Level Mockup](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/Jump-King-3.jpg)
-##Game tab layout
+## Game tab layout
 ![ClassDiagram](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/classdiagram.png)
-#Work layout
+## Work layout
 ![ProjectTimeline](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/projectTimeline.png)
 
 ## A mage of the forest is enjoying practicing his magic when he gets an invitation from the royal capital to commemorate him on his high achievements. To reach the castle he must traverse environments and harness the raw magic in the world around him. He must find a path through the unknown terrain in order to reach his destination. Along his journey he learns new magic in order to further his progression, becoming a mage of all four of the elements, learning skills that haven't been seen in history. 
