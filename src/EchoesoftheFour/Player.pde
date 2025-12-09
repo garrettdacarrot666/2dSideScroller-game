@@ -117,8 +117,8 @@ class Player {
         float slopeY = s.y1 + t * (s.y2 - s.y1);
         if (location.y + w/2 > slopeY) {
           location.y = slopeY - w/2;
-          velocity.y = 5;
-          velocity.x = -5;
+          velocity.y = 7;
+          velocity.x = -7;
           isOnSlope = true;
           isOnGround = false;
           currentSlope = s;
