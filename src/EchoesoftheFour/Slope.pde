@@ -1,7 +1,6 @@
 class Slope {
   //Member Variables
   int x1, y1, x2, y2;
-  color c1;
   //PImage platform, ground;
 
   //Constructor
