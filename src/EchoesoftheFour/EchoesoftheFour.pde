@@ -41,6 +41,8 @@ void setup() {
   platforms.add(new Platform(800, height-200, 100, 50, color(0)));
   walkRight = new Gif(this, "walkingWizardRight.gif");
   walkLeft = new Gif(this, "walkingWizardLeft.gif");
+  swimRight = new Gif(this, "swimRight.gif");
+  swimLeft = new Gif(this, "swimLeft.gif");
   baseWizardRight = loadImage("baseWizard.png");
   baseWizardLeft = loadImage("baseWizardleft.png");
   startscreen = loadImage("Startscreen.png");
@@ -136,6 +138,11 @@ void drawPlay() {
       }
     }
   }
+  //if (gerald.isInWater) {
+  //  if(walkLeft.isVisible() == true) {
+  //    walkLeft.isVisible() = false;
+  //  }
+  //}
   if (rightPress == true) {
     gerald.moveRight();
     imageMode(CENTER);
@@ -254,18 +261,28 @@ void keyPressed() {
   if (keyCode == UP) {
     upPress = true;
   }
-  if (keyCode == LEFT) {
+  if (keyCode == LEFT && gerald.isInWater == false) {
     leftPress = true;
     idleImageRight = false;
     idleImageLeft = false;
     walkRight.pause();
+  }
+  if (keyCode == LEFT && gerald.isInWater == true) {
+    leftPress = true;
+    idleImageRight = false;
+    idleImageLeft = false;
     swimRight.pause();
   }
-  if (keyCode == RIGHT) {
+  if (keyCode == RIGHT && gerald.isInWater == false) {
     rightPress = true;
     idleImageRight = false;
     idleImageLeft = false;
     walkLeft.pause();
+  }
+  if (keyCode == RIGHT && gerald.isInWater == true) {
+    rightPress = true;
+    idleImageRight = false;
+    idleImageLeft = false;
     swimLeft.pause();
   }
   if (keyCode == UP && gerald.isOnGround == false && canJump == true) {
@@ -276,18 +293,28 @@ void keyPressed() {
 
 //Even more movement checks
 void keyReleased() {
-  if (keyCode == LEFT) {
+  if (keyCode == LEFT && gerald.isInWater == false) {
     leftPress = false;
     idleImageLeft = true;
     idleImageRight = false;
     walkLeft.pause();
+  }
+  if (keyCode == LEFT && gerald.isInWater == true) {
+    leftPress = false;
+    idleImageLeft = true;
+    idleImageRight = false;
     swimLeft.pause();
   }
-  if (keyCode == RIGHT) {
+  if (keyCode == RIGHT && gerald.isInWater == false) {
     rightPress = false;
     idleImageRight = true;
     idleImageLeft = false;
     walkRight.pause();
+  }
+  if (keyCode == RIGHT && gerald.isInWater == true) {
+    rightPress = false;
+    idleImageRight = true;
+    idleImageLeft = false;
     swimRight.pause();
   }
   if (keyCode == UP) {
