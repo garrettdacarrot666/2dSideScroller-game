@@ -1,11 +1,11 @@
-class Boss {
+class Element {
   //Member Variables
-  int x, y, w, h, health;
+  int x, y, w, h, timer, speed;
   color c1;
-  //PImage boss;
+  //PImage wheel, elements;
 
   //Constructor
-  Boss (int x, int y, color c1) {
+  Element (int x, int y, color c1) {
     this.x = x;
     this.y = y;
     w = 100;
@@ -17,7 +17,7 @@ class Boss {
   //Member Methods
   void display () {
     fill(c1);
-    rectMode(CENTER);
-    rect(x, y, w, h);
+    ellipseMode(CENTER);
+    ellipse(x, y, w, h);
   }
 }
