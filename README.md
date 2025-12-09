@@ -3,6 +3,7 @@
 ![StartScreen](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/Startscreen.png)
 ![Forest](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/forrest.png)
 ![Wizard](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/baseWizard.png)
+![grassblock](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/grassBlock.png)
 ![WizardRight](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardRight.gif)
 ![WizardWalking](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardLeft.gif)
 ![WizardSwim](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/swim.gif)
