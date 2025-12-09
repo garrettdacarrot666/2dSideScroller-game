@@ -2,10 +2,11 @@ class Player {
   // Member Variable
   int x, y, w, h, speed;
   color c1;
-  boolean isOnGround;
-  PVector location, velocity, gravity, rightFriction, leftFriction, airFrictionRight, airFrictionLeft;
+  boolean isOnGround, isOnSlope, isInWater;
+  PVector location, velocity, gravity, waterGravity, rightFriction, leftFriction, airFrictionRight, airFrictionLeft, waterFrictionRight, waterFrictionLeft;
   Platform currentPlatform;
   Slope currentSlope;
+  Water currentWater;
 
   // Constructor
   Player(int x, int y, color c1) {
@@ -18,11 +19,16 @@ class Player {
     location = new PVector(100, 100);
     velocity = new PVector(0, 2.1);
     gravity = new PVector(0, 1);
+    waterGravity = new PVector(0, 0.5);
     rightFriction = new PVector(0.5, 0);
     leftFriction = new PVector(-0.5, 0);
     airFrictionRight = new PVector(0.25, 0);
     airFrictionLeft = new PVector(-0.25, 0);
+    waterFrictionRight = new PVector(0.75, 0);
+    waterFrictionLeft = new PVector(-0.75, 0);
     isOnGround = false;
+    isOnSlope = false;
+    isInWater = false;
     //currentPlatform = null;
   }
 
@@ -33,20 +39,22 @@ class Player {
     rect(location.x, location.y, w, h);
   }
   void update() {
-    location.add(velocity);
-    velocity.add(gravity);
+    if (isInWater == false) {
+      location.add(velocity);
+      velocity.add(gravity);
+    }
     if (isOnGround && velocity.x < 0) {
       velocity.add(rightFriction);
     }
     if (isOnGround && velocity.x > 0) {
       velocity.add(leftFriction);
     }
-    if (isOnGround == false && velocity.x < 0) {
+    if (isOnGround == false && isInWater == false && velocity.x < 0) {
       velocity.add(airFrictionRight);
     } else if (velocity.x >= 0) {
       velocity.sub(airFrictionRight);
     }
-    if (isOnGround == false && velocity.x > 0) {
+    if (isOnGround == false && isInWater == false && velocity.x > 0) {
       velocity.add(airFrictionLeft);
     } else if (velocity.x <= 0) {
       velocity.sub(airFrictionLeft);
@@ -57,9 +65,28 @@ class Player {
     if (velocity.x > 6) {
       velocity.x = 6;
     }
+    if (isInWater) {
+      location.add(velocity);
+      velocity.add(waterGravity);
+      if (velocity.x < 0) {
+        velocity.add(waterFrictionRight);
+      }
+      if (velocity.x > 0) {
+        velocity.add(waterFrictionLeft);
+      }
+      if (velocity.x < -4) {
+        velocity.x = -4;
+      }
+      if (velocity.x > 4) {
+        velocity.x = 4;
+      }
+    }
     isOnGround = false;
+    isOnSlope = false;
+    isInWater = false;
     currentPlatform = null;
-    //currentSlope = null;
+    currentSlope = null;
+    currentWater = null;
 
     if (location.x >= width) {
       location.x = 0;
@@ -89,10 +116,21 @@ class Player {
         float t = (location.x - s.x1) / (s.x2 - s.x1);
         float slopeY = s.y1 + t * (s.y2 - s.y1);
         if (location.y + w/2 > slopeY) {
-        location.y = slopeY - w/2;
-          velocity.y = 0;
-          isOnGround = true;
+          location.y = slopeY - w/2;
+          velocity.y = 5;
+          velocity.x = -5;
+          isOnSlope = true;
+          isOnGround = false;
           currentSlope = s;
+        }
+      }
+    }
+    for (Water m : water) {
+      if (isTouching(m)) {
+        if (location.y + h/2 >= m.y - m.h/2 && location.y - h/2 >= m.y - m.h/2) {
+          isOnGround = false;
+          isInWater = true;
+          currentWater = m;
         }
       }
     }
@@ -102,26 +140,49 @@ class Player {
     return location.x + w/2 > p.x - p.w/2 && // Horizontal overlap
       location.x - w/2 < p.x + p.w/2 && location.y + h/2 > p.y - p.w/2 && location.y - h/2 < p.y + p.w/2;
   }
+  boolean isTouching(Water m) {
+    return location.x + w/2 > m.x - m.w/2 && // Horizontal overlap
+      location.x - w/2 < m.x + m.w/2 && location.y + h/2 > m.y - m.w/2 && location.y - h/2 < m.y + m.w/2;
+  }
 
-  //boolean isTouching(Slope s) {
-  //  return location.x >= min(s.x1, s.x2) && location.x <= max(x1, x2))
-  //}
 
   void moveLeft () {
-    velocity.add(-3, 0);
+    if (isOnSlope == true) {
+      velocity.add(0, 0);
+    } else if (isInWater == true) {
+      velocity.add(-1.5, 0);
+    } else if (isInWater == true && isOnGround == true) {
+      velocity.add(-1.75, 0);
+    } else {
+      velocity.add(-3, 0);
+    }
   }
 
   void moveRight () {
-    velocity.add(3, 0);
+    if (isOnSlope == true) {
+      velocity.add(0, 0);
+    } else if (isInWater == true) {
+      velocity.add(1.5, 0);
+    } else if (isInWater == true && isOnGround == true) {
+      velocity.add(1.75, 0);
+    } else {
+      velocity.add(3, 0);
+    }
   }
 
   void jump () {
-    if (isOnGround) {
+    if (isOnGround && isInWater == false) {
       velocity.add(0, -15);
+    }
+    if (isInWater && isOnGround) {
+      velocity.add(0, -10);
+    }
+    if (isInWater && isOnGround == false) {
+      velocity.add(0, -8);
     }
   }
   void doubleJump () {
-    if (isOnGround == false) {
+    if (isOnGround == false && isInWater == false) {
       velocity.add(0, -13);
     }
   }
