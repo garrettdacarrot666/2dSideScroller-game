@@ -5,6 +5,7 @@
 ![Wizard](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/baseWizard.png)
 ![WizardRight](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardRight.gif)
 ![WizardWalking](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/walkingWizardLeft.gif)
+![WizardSwim](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/swim.gif)
 ![Level Mockup](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/Jump-King-3.jpg)
 ![ClassDiagram](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/classdiagram.png)
 ![ProjectTimeline](https://github.com/garrettdacarrot666/2dSideScroller-game/blob/main/images/projectTimeline.png)
